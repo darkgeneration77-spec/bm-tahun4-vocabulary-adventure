@@ -1,27 +1,26 @@
 const data = window.BM_GAME_DATA;
-const state = { player:"Murid", stars:0, xp:0, theme:null, unit:null, mode:null, questions:[], index:0, score:0, locked:false };
+const state = { player:"Murid", stars:0, xp:0, theme:null, words:[], mode:null, questions:[], index:0, score:0, locked:false };
 const $ = (id) => document.getElementById(id);
 const themeGrid = $("themeGrid");
-const unitGrid = $("unitGrid");
 const modeGrid = $("modeGrid");
 const themeSection = $("themeSection");
-const unitSection = $("unitSection");
 const modeSection = $("modeSection");
 const gameSection = $("gameSection");
 const gameArea = $("gameArea");
 
 function shuffle(items){ return [...items].sort(() => Math.random() - 0.5); }
 function updateProfile(){ $("playerName").textContent=state.player; $("stars").textContent=state.stars; $("xp").textContent=state.xp; }
+function themeWords(themeId){ return data.units.filter(unit=>unit.themeId===themeId).flatMap(unit=>unit.words); }
 
 function renderThemes(){
   themeGrid.innerHTML="";
   data.themes.forEach(theme=>{
-    const count = data.units.filter(unit=>unit.themeId===theme.id).reduce((sum,unit)=>sum+unit.words.length,0);
+    const words=themeWords(theme.id);
     const button=document.createElement("button");
     button.type="button";
     button.className=`unit-card${theme.unlocked?"":" locked"}`;
     button.disabled=!theme.unlocked;
-    button.innerHTML=`<span class="card-number">${theme.id}</span><h3>${theme.title}</h3><p>${theme.subtitle}</p><span class="mode-tag">6 bab · ${count} perkataan</span>`;
+    button.innerHTML=`<span class="card-number">${theme.id}</span><h3>${theme.title}</h3><p>${theme.subtitle}</p><span class="mode-tag">${words.length} kosa kata</span>`;
     button.addEventListener("click",()=>selectTheme(theme));
     themeGrid.appendChild(button);
   });
@@ -29,29 +28,9 @@ function renderThemes(){
 
 function selectTheme(theme){
   state.theme=theme;
-  $("selectedThemeLabel").textContent=`${theme.title}: ${theme.subtitle}`;
+  state.words=themeWords(theme.id);
+  $("selectedThemeLabel").textContent=`${theme.title}: ${theme.subtitle} · ${state.words.length} kosa kata`;
   themeSection.classList.add("hidden");
-  unitSection.classList.remove("hidden");
-  renderUnits();
-}
-
-function renderUnits(){
-  unitGrid.innerHTML="";
-  data.units.filter(unit=>unit.themeId===state.theme.id).forEach(unit=>{
-    const button=document.createElement("button");
-    button.type="button";
-    button.className=`unit-card${unit.unlocked?"":" locked"}`;
-    button.disabled=!unit.unlocked;
-    button.innerHTML=`<span class="card-number">${unit.title.replace("Bab ","")}</span><h3>${unit.title}</h3><p>${unit.subtitle}</p><span class="mode-tag">${unit.words.length} perkataan · ${unit.category}</span>`;
-    button.addEventListener("click",()=>selectUnit(unit));
-    unitGrid.appendChild(button);
-  });
-}
-
-function selectUnit(unit){
-  state.unit=unit;
-  $("selectedUnitLabel").textContent=`${state.theme.title} · ${unit.title}: ${unit.subtitle}`;
-  unitSection.classList.add("hidden");
   modeSection.classList.remove("hidden");
   renderModes();
 }
@@ -69,12 +48,16 @@ function renderModes(){
 }
 
 function startGame(mode){
-  state.mode=mode; state.questions=shuffle(state.unit.words).slice(0,5); state.index=0; state.score=0; state.locked=false;
-  modeSection.classList.add("hidden"); gameSection.classList.remove("hidden"); $("gameTitle").textContent=mode.title; renderQuestion();
+  state.mode=mode;
+  state.questions=shuffle(state.words).slice(0,10);
+  state.index=0; state.score=0; state.locked=false;
+  modeSection.classList.add("hidden"); gameSection.classList.remove("hidden");
+  $("gameTitle").textContent=`${state.theme.title} · ${mode.title}`;
+  renderQuestion();
 }
 
 function buildOptions(correct,getter=(item)=>item.chinese){
-  const others=shuffle(state.unit.words.filter(item=>item.word!==correct.word)).slice(0,3);
+  const others=shuffle(state.words.filter(item=>item.word!==correct.word)).slice(0,3);
   return shuffle([correct,...others]).map(item=>({label:getter(item),item}));
 }
 function progress(){
@@ -147,7 +130,6 @@ function finishGame(){
 function showModes(){gameSection.classList.add("hidden");modeSection.classList.remove("hidden");}
 
 $("changeNameBtn").addEventListener("click",()=>{const name=prompt("Masukkan nama murid:",state.player);if(name&&name.trim()){state.player=name.trim().slice(0,24);updateProfile();}});
-$("backToThemesBtn").addEventListener("click",()=>{unitSection.classList.add("hidden");themeSection.classList.remove("hidden");});
-$("backToUnitsBtn").addEventListener("click",()=>{modeSection.classList.add("hidden");unitSection.classList.remove("hidden");});
+$("backToThemesBtn").addEventListener("click",()=>{modeSection.classList.add("hidden");themeSection.classList.remove("hidden");});
 $("exitGameBtn").addEventListener("click",showModes);
 renderThemes(); updateProfile();
