@@ -41,7 +41,7 @@ function renderModes(){
     const button=document.createElement("button");
     button.type="button";
     button.className="mode-card";
-    button.innerHTML=`<h3>${mode.title}</h3><p>${mode.description}</p><span class="mode-tag">${mode.skill}</span>`;
+    button.innerHTML=`<h3>${mode.title}</h3><p>${mode.description}</p><span class="mode-tag">Semua ${state.words.length} kosa kata · ${mode.skill}</span>`;
     button.addEventListener("click",()=>startGame(mode));
     modeGrid.appendChild(button);
   });
@@ -49,10 +49,10 @@ function renderModes(){
 
 function startGame(mode){
   state.mode=mode;
-  state.questions=shuffle(state.words).slice(0,10);
+  state.questions=shuffle(state.words);
   state.index=0; state.score=0; state.locked=false;
   modeSection.classList.add("hidden"); gameSection.classList.remove("hidden");
-  $("gameTitle").textContent=`${state.theme.title} · ${mode.title}`;
+  $("gameTitle").textContent=`${state.theme.title} · ${mode.title} · ${state.questions.length} kosa kata`;
   renderQuestion();
 }
 
@@ -86,7 +86,7 @@ function renderChoice(word,heading,hint){
   options.forEach(option=>{ const b=document.createElement("button"); b.type="button"; b.className="option-button"; b.textContent=option.label; b.addEventListener("click",()=>answer(option.item.word===word.word,word)); $("options").appendChild(b); });
 }
 function renderFlash(word){
-  gameArea.innerHTML=`<p class="question-hint">Kad ${state.index+1}</p><h3 class="question-word">${word.word}</h3><div class="sentence-box">${word.chinese}<br><small>${word.sentence}</small></div><div class="center-actions" style="margin-top:24px"><button class="primary-button" id="knowBtn" type="button">Saya sudah faham</button></div>`;
+  gameArea.innerHTML=`<p class="question-hint">Kad ${state.index+1} daripada ${state.questions.length}</p><h3 class="question-word">${word.word}</h3><div class="sentence-box">${word.chinese}<br><small>${word.sentence}</small></div><div class="center-actions" style="margin-top:24px"><button class="primary-button" id="knowBtn" type="button">Saya sudah faham</button></div>`;
   $("knowBtn").addEventListener("click",()=>answer(true,word));
 }
 function renderTyping(word){
@@ -95,7 +95,8 @@ function renderTyping(word){
   $("submitBtn").addEventListener("click",submit); $("answerInput").addEventListener("keydown",e=>{if(e.key==="Enter")submit();}); $("answerInput").focus();
 }
 function renderSentence(word){
-  const sentence=word.sentence.replace(new RegExp(word.word,"i"),"________"), options=buildOptions(word,item=>item.word);
+  const escaped=word.word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  const sentence=word.sentence.replace(new RegExp(escaped,"i"),"________"), options=buildOptions(word,item=>item.word);
   gameArea.innerHTML=`<p class="question-hint">Lengkapkan ayat</p><div class="sentence-box">${sentence}</div><div class="options" id="options"></div><div id="feedback"></div>`;
   options.forEach(option=>{const b=document.createElement("button");b.type="button";b.className="option-button";b.textContent=option.label;b.addEventListener("click",()=>answer(option.item.word===word.word,word));$("options").appendChild(b);});
 }
@@ -124,7 +125,7 @@ function answer(isCorrect,word){
 }
 function finishGame(){
   $("progressBar").style.width="100%"; const percent=Math.round((state.score/state.questions.length)*100);
-  gameArea.innerHTML=`<div class="result-card"><p class="eyebrow">Misi Selesai</p><div class="result-score">${state.score}/${state.questions.length}</div><h2>${percent>=80?"Hebat!":"Cuba sekali lagi"}</h2><p class="subtitle">Skor ${percent}%. Kamu memperoleh ${state.score*10} XP dan ${state.score} bintang.</p><div class="center-actions" style="margin-top:24px"><button class="primary-button" id="replayBtn" type="button">Main Semula</button><button class="secondary-button" id="modesBtn" type="button">Pilih Mode</button></div></div>`;
+  gameArea.innerHTML=`<div class="result-card"><p class="eyebrow">Semua Kosa Kata Selesai</p><div class="result-score">${state.score}/${state.questions.length}</div><h2>${percent>=80?"Hebat!":"Cuba sekali lagi"}</h2><p class="subtitle">Kamu telah melalui kesemua ${state.questions.length} kosa kata. Skor ${percent}%. Kamu memperoleh ${state.score*10} XP dan ${state.score} bintang.</p><div class="center-actions" style="margin-top:24px"><button class="primary-button" id="replayBtn" type="button">Main Semula</button><button class="secondary-button" id="modesBtn" type="button">Pilih Mode</button></div></div>`;
   $("replayBtn").addEventListener("click",()=>startGame(state.mode)); $("modesBtn").addEventListener("click",showModes);
 }
 function showModes(){gameSection.classList.add("hidden");modeSection.classList.remove("hidden");}
