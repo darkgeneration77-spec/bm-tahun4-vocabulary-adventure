@@ -13,7 +13,7 @@
       <div>
         <p class="eyebrow">Pengembaraan Kosa Kata</p>
         <h1>Bahasa Melayu Tahun 4</h1>
-        <p class="subtitle">Pilih bab, kuasai perkataan dan kumpulkan bintang.</p>
+        <p class="subtitle">Pilih tema, masuk ke bab dan kuasai kosa kata.</p>
       </div>
       <div class="player-panel" aria-label="Maklumat pemain">
         <div><span>Nama</span><strong id="playerName">Murid</strong></div>
@@ -23,16 +23,27 @@
     </header>
 
     <section class="notice" id="notice">
-      Tema 1: Sekolah dan Pembelajaran telah dimuatkan — 6 bab dan 150 kosa kata.
+      Tema 1 dan Tema 2 telah disambungkan — 12 bab dan 300 kosa kata.
     </section>
 
-    <section>
+    <section id="themeSection">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Tema 1: Sekolah dan Pembelajaran</p>
-          <h2>Pilih Bab</h2>
+          <p class="eyebrow">Peta Pembelajaran</p>
+          <h2>Pilih Tema</h2>
         </div>
         <button class="secondary-button" id="changeNameBtn" type="button">Tukar Nama</button>
+      </div>
+      <div class="unit-grid" id="themeGrid"></div>
+    </section>
+
+    <section id="unitSection" class="hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" id="selectedThemeLabel">Tema</p>
+          <h2>Pilih Bab</h2>
+        </div>
+        <button class="secondary-button" id="backToThemesBtn" type="button">Kembali ke Tema</button>
       </div>
       <div class="unit-grid" id="unitGrid"></div>
     </section>
