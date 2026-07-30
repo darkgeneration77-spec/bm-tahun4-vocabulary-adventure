@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#183153" />
   <title>BM Tahun 4 Vocabulary Adventure</title>
-  <link rel="stylesheet" href="./styles.css?v=2.1" />
+  <link rel="stylesheet" href="./styles.css?v=3.0" />
 </head>
 <body>
   <main class="app-shell">
@@ -13,7 +13,7 @@
       <div>
         <p class="eyebrow">Pengembaraan Kosa Kata</p>
         <h1>Bahasa Melayu Tahun 4</h1>
-        <p class="subtitle">Pilih tema, masuk ke bab dan kuasai kosa kata.</p>
+        <p class="subtitle">Pilih tema, pilih permainan dan kuasai semua kosa kata.</p>
       </div>
       <div class="player-panel" aria-label="Maklumat pemain">
         <div><span>Nama</span><strong id="playerName">Murid</strong></div>
@@ -22,9 +22,7 @@
       </div>
     </header>
 
-    <section class="notice" id="notice">
-      Tema 1 dan Tema 2 telah disambungkan — 12 bab dan 300 kosa kata.
-    </section>
+    <section class="notice" id="notice">Tema 1 telah dimuatkan sebagai satu set lengkap — 150 kosa kata tanpa pembahagian bab.</section>
 
     <section id="themeSection">
       <div class="section-heading">
@@ -34,18 +32,10 @@
       <div class="unit-grid" id="themeGrid"></div>
     </section>
 
-    <section id="unitSection" class="hidden">
-      <div class="section-heading">
-        <div><p class="eyebrow" id="selectedThemeLabel">Tema</p><h2>Pilih Bab</h2></div>
-        <button class="secondary-button" id="backToThemesBtn" type="button">Kembali ke Tema</button>
-      </div>
-      <div class="unit-grid" id="unitGrid"></div>
-    </section>
-
     <section id="modeSection" class="hidden">
       <div class="section-heading">
-        <div><p class="eyebrow" id="selectedUnitLabel">Bab</p><h2>Pilih Mode Permainan</h2></div>
-        <button class="secondary-button" id="backToUnitsBtn" type="button">Kembali</button>
+        <div><p class="eyebrow" id="selectedThemeLabel">Tema</p><h2>Pilih Mode Permainan</h2></div>
+        <button class="secondary-button" id="backToThemesBtn" type="button">Kembali ke Tema</button>
       </div>
       <div class="mode-grid" id="modeGrid"></div>
     </section>
@@ -54,7 +44,7 @@
       <div class="game-topbar">
         <button class="secondary-button" id="exitGameBtn" type="button">Keluar</button>
         <div class="progress-wrap">
-          <div class="progress-label"><span id="gameTitle">Permainan</span><span id="progressText">1/5</span></div>
+          <div class="progress-label"><span id="gameTitle">Permainan</span><span id="progressText">1/10</span></div>
           <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
         </div>
       </div>
@@ -62,7 +52,7 @@
     </section>
   </main>
 
-  <script src="./data.js?v=2.1"></script>
-  <script src="./app.js?v=2.1"></script>
+  <script src="./data.js?v=3.0"></script>
+  <script src="./app.js?v=3.0"></script>
 </body>
 </html>
