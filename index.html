@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#183153" />
+  <title>BM Tahun 4 Vocabulary Adventure</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Pengembaraan Kosa Kata</p>
+        <h1>Bahasa Melayu Tahun 4</h1>
+        <p class="subtitle">Pilih unit, kuasai perkataan dan kumpulkan bintang.</p>
+      </div>
+      <div class="player-panel" aria-label="Maklumat pemain">
+        <div><span>Nama</span><strong id="playerName">Murid</strong></div>
+        <div><span>Bintang</span><strong id="stars">0</strong></div>
+        <div><span>XP</span><strong id="xp">0</strong></div>
+      </div>
+    </header>
+
+    <section class="notice" id="notice">
+      V1.0 menyediakan kerangka permainan. Unit 1 menggunakan data contoh sementara sebelum kosa kata sebenar dimasukkan.
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Peta Pembelajaran</p>
+          <h2>Pilih Unit</h2>
+        </div>
+        <button class="secondary-button" id="changeNameBtn" type="button">Tukar Nama</button>
+      </div>
+      <div class="unit-grid" id="unitGrid"></div>
+    </section>
+
+    <section id="modeSection" class="hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" id="selectedUnitLabel">Unit</p>
+          <h2>Pilih Mode Permainan</h2>
+        </div>
+        <button class="secondary-button" id="backToUnitsBtn" type="button">Kembali</button>
+      </div>
+      <div class="mode-grid" id="modeGrid"></div>
+    </section>
+
+    <section id="gameSection" class="game-section hidden" aria-live="polite">
+      <div class="game-topbar">
+        <button class="secondary-button" id="exitGameBtn" type="button">Keluar</button>
+        <div class="progress-wrap">
+          <div class="progress-label"><span id="gameTitle">Permainan</span><span id="progressText">1/5</span></div>
+          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+      </div>
+      <div id="gameArea" class="game-card"></div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
